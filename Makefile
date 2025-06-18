@@ -4,7 +4,6 @@ TELEGRAM_CHAT_ID ?= NOT_SET
 TELEGRAM_BOT_TOKEN ?= NOT_SET
 
 run: image
-	env | grep TELEGRAM
 	docker run --rm -it \
 		-e PYTHONPATH=/app \
 		-e PYTHONUNBUFFERED=1 \
