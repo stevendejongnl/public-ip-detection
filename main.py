@@ -1,9 +1,18 @@
+import sys
 import os
 import requests
+import logging
 
 
 CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    handlers=[logging.StreamHandler(sys.stdout)]
+)
 
 
 def detect_public_ip():
@@ -15,7 +24,7 @@ def detect_public_ip():
         ip_info = response.json()
         return ip_info['ip']
     except requests.RequestException as e:
-        print(f"Error fetching public IP: {e}")
+        logging.info(f"Error fetching public IP: {e}")
         return None
 
 def write_ip_to_file(ip, filename='public_ip.txt'):
@@ -23,7 +32,7 @@ def write_ip_to_file(ip, filename='public_ip.txt'):
         with open(filename, 'w') as file:
             file.write(ip)
     except IOError as e:
-        print(f"Error writing IP to file: {e}")
+        logging.info(f"Error writing IP to file: {e}")
 
 def detect_ip_change(filename='public_ip.txt'):
     try:
@@ -45,25 +54,25 @@ def notify_telegram_on_ip_change(ip, chat_id, token):
         response = requests.post(url, data=payload)
         response.raise_for_status()
     except requests.RequestException as e:
-        print(f"Error sending notification: {e}")
+        logging.info(f"Error sending notification: {e}")
 
 def main():
     if not CHAT_ID or not TOKEN:
-        print("Telegram credentials are not set in environment variables.")
+        logging.info("Telegram credentials are not set in environment variables.")
         return
 
     public_ip = detect_public_ip()
     if not public_ip:
-        print("Could not detect public IP.")
+        logging.info("Could not detect public IP.")
         return
     old_ip = detect_ip_change()
     if old_ip == public_ip:
-        print("Public IP has not changed.")
+        logging.info("Public IP has not changed.")
         return
 
     write_ip_to_file(public_ip)
 
-    print(f"Public IP has changed to: {public_ip}")
+    logging.info(f"Public IP has changed to: {public_ip}")
     notify_telegram_on_ip_change(public_ip, CHAT_ID, TOKEN)
 
 
