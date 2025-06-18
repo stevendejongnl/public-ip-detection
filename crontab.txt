@@ -1,1 +1,2 @@
+* * * * * root echo "CRON OK: $(date)" >> /proc/1/fd/1 2>&1
 0 * * * * root python /app/main.py
