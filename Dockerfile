@@ -12,8 +12,6 @@ COPY . /app
 RUN mkdir -p /data
 RUN touch /data/public_ip.txt
 
-RUN chmod +x /app/main.py /etc/cron.d/simple-cron
-
-RUN crontab /etc/cron.d/simple-cron
+RUN chmod 0644 /etc/cron.d/simple-cron
 
 CMD ["cron", "-f"]
