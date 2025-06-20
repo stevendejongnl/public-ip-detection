@@ -57,6 +57,7 @@ def notify_telegram_on_ip_change(ip, chat_id, token):
         logging.info(f"Error sending notification: {e}")
 
 def main():
+    logging.info("Starting public IP change detection...")
     if not CHAT_ID or not TOKEN:
         logging.info("Telegram credentials are not set in environment variables.")
         return
