@@ -8,14 +8,13 @@ RUN mkdir -p /app /data
 
 RUN useradd -ms /bin/bash appuser
 RUN chown -R appuser:appuser /app /data
+USER appuser
 
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
 COPY . /app
 
-RUN mkdir -p /data
 RUN touch /data/public_ip.txt
 
-USER appuser
 CMD ["/usr/local/bin/supercronic", "/app/crontab.txt"]
