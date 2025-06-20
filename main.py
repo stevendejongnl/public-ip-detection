@@ -27,14 +27,14 @@ def detect_public_ip():
         logging.info(f"Error fetching public IP: {e}")
         return None
 
-def write_ip_to_file(ip, filename='public_ip.txt'):
+def write_ip_to_file(ip, filename='/data/public_ip.txt'):
     try:
         with open(filename, 'w') as file:
             file.write(ip)
     except IOError as e:
         logging.info(f"Error writing IP to file: {e}")
 
-def detect_ip_change(filename='public_ip.txt'):
+def detect_ip_change(filename='/data/public_ip.txt'):
     try:
         with open(filename, 'r') as file:
             old_ip = file.read().strip()
