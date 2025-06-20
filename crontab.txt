@@ -1,2 +1,1 @@
-* * * * * echo "CRON OK: $(date)"
-*/5 * * * * /usr/local/bin/python /app/main.py
+0 * * * * /usr/local/bin/python /app/main.py
