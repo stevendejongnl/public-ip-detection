@@ -1,2 +1,3 @@
-* * * * * root echo "CRON OK: $(date)" >> /proc/1/fd/1 2>&1
-* * * * * root /usr/local/bin/python /app/main.py >> /proc/1/fd/1 2>&1
+@reboot echo "CRON START"
+* * * * * echo "CRON OK: $(date)"
+* * * * * /usr/local/bin/python /app/main.py
